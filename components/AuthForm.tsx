@@ -17,7 +17,7 @@ const AuthForm = ({ type }: { type: authType }) => {
 
   // 1. Define your form.
   const form = useForm<TAuthFormValidator>({
-    resolver: zodResolver(authFormValidator),
+    resolver: zodResolver(authFormValidator(type)),
     defaultValues: {
       email: "",
       password: ""
