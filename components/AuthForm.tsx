@@ -13,7 +13,7 @@ import { useForm } from "react-hook-form";
 import CustomInput from "./CustomInput";
 
 const AuthForm = ({ type }: { type: authType }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<Awaited<ReturnType<typeof SignUp>>>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   // 1. Define your form.
@@ -34,13 +34,10 @@ const AuthForm = ({ type }: { type: authType }) => {
 
       if (type === 'sign-up') {
         const newUser = await SignUp(values);
+
         setUser(newUser);
       } else {
-        const response = await SignIn({
-          email: values.email,
-          password: values.password,
-        });
-
+        const response = await SignIn({ email: values.email, password: values.password });
       }
     } catch (error) {
 
