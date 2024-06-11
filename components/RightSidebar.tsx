@@ -2,14 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import BankCard from "./BankCard";
 
-type Props = Modify<RightSidebarProps, {
-  user: {
-    email: string;
-    name: string;
-  }
-}>;
-
-const RightSidebar = ({ user, transactions, banks }: Props) => {
+const RightSidebar = ({ user, transactions, banks }: RightSidebarProps) => {
 
   return (
     <aside className="right-sidebar">
@@ -39,7 +32,7 @@ const RightSidebar = ({ user, transactions, banks }: Props) => {
             <div className="relative z-10">
               <BankCard
                 account={banks[0]}
-                userName={`${user.name}`}
+                userName={user.name}
                 showBalance={false}
               />
             </div>
@@ -47,7 +40,7 @@ const RightSidebar = ({ user, transactions, banks }: Props) => {
               <div className="absolute right-0 top-8 z-0 w-[90%]">
                 <BankCard
                   account={banks[1]}
-                  userName={`${user.name}`}
+                  userName={user.name}
                   showBalance={false}
                 />
               </div>

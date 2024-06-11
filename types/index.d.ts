@@ -25,15 +25,16 @@ declare type LoginUser = {
   password: string;
 };
 
-declare type User = {
-  $id: string;
+declare type UserParticulars = {
   email: string;
+  name: string;
+};
+
+declare type User = UserParticulars & {
+  $id: string;
   userId: string;
   dwollaCustomerUrl: string;
   dwollaCustomerId: string;
-  firstName: string;
-  lastName: string;
-  name:string;
   address: string;
   city: string;
   state: string;
@@ -157,7 +158,7 @@ declare interface HeaderBoxProps {
 }
 
 declare interface MobileNavProps {
-  user: User;
+  user: UserParticulars;
 }
 
 declare interface PageHeaderProps {
@@ -210,17 +211,18 @@ declare interface TotalBalanceBoxProps {
 }
 
 declare interface FooterProps {
-  user: User;
+  user: UserParticulars;
+  type?: 'mobile' | 'desktop';
 }
 
 declare interface RightSidebarProps {
-  user: User;
+  user: UserParticulars;
   transactions: Transaction[];
   banks: Bank[] & Account[];
 }
 
-declare interface SiderbarProps {
-  user: User;
+declare interface SidebarProps {
+  user: UserParticulars;
 }
 
 declare interface RecentTransactionsProps {

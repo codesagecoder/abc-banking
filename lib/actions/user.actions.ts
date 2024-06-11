@@ -1,11 +1,11 @@
 'use server'
 
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import { ID } from "node-appwrite";
 import { createAdminClient, createSessionClient } from "../appwrite";
 import { parseStringify } from "../utils";
 import { authFormValidator } from "../validators/auth-form";
-import { redirect } from "next/navigation";
 
 // Pick<TAuthFormValidator, 'password' | 'email'>
 export const SignIn = async (payload: unknown) => {
@@ -69,3 +69,15 @@ export async function getLoggedInUser() {
     return null;
   }
 }
+
+export const logoutAccount = async () => {
+  try {
+    const { account } = await createSessionClient();
+
+    cookies().delete('appwrite-session');
+
+    await account.deleteSession('current');
+
+    redirect('/sign-in');
+  } catch { }
+};
