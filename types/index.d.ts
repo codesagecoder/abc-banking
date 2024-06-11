@@ -33,7 +33,8 @@ declare type User = {
   dwollaCustomerId: string;
   firstName: string;
   lastName: string;
-  address1: string;
+  name:string;
+  address: string;
   city: string;
   state: string;
   postalCode: string;
@@ -328,3 +329,7 @@ declare interface getBankByAccountIdProps {
 }
 
 declare type authType = 'sign-in' | 'sign-up';
+
+// ================= TS UTILS =======================
+
+declare type Modify<T, R> = Omit<T, keyof R> & R;
