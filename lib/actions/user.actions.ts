@@ -5,14 +5,23 @@ import { ID } from "node-appwrite";
 import { createAdminClient, createSessionClient } from "../appwrite";
 import { parseStringify } from "../utils";
 import { authFormValidator } from "../validators/auth-form";
+import { redirect } from "next/navigation";
 
 // Pick<TAuthFormValidator, 'password' | 'email'>
 export const SignIn = async (payload: unknown) => {
-  const safe = authFormValidator('sign-in').safeParse(payload);
+  try {
+    const { data, success, error } = authFormValidator('sign-in').safeParse(payload);
 
-  if (!safe.success) return null;
+    if (!success) throw error;
 
-  return null;
+    const { account } = await createAdminClient();
+
+    await account.createEmailPasswordSession(data.email, data.password);
+
+    redirect('/');
+  } catch {
+    return null;
+  }
 };
 
 // Required<TAuthFormValidator>
@@ -20,7 +29,7 @@ export const SignUp = async (payload: unknown) => {
   try {
     const safe = authFormValidator('sign-up').safeParse(payload);
 
-    if (!safe.success) throw new Error('Validation failed');
+    if (!safe.success) throw safe.error;
 
     const { email, firstName, lastName, password } = safe.data;
 

@@ -11,8 +11,10 @@ import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import CustomInput from "./CustomInput";
+import { useRouter } from "next/navigation";
 
 const AuthForm = ({ type }: { type: authType }) => {
+  const router = useRouter()
   const [user, setUser] = useState<Awaited<ReturnType<typeof SignUp>>>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -21,7 +23,15 @@ const AuthForm = ({ type }: { type: authType }) => {
     resolver: zodResolver(authFormValidator(type)),
     defaultValues: {
       email: "",
-      password: ""
+      password: "",
+      firstName: "",
+      lastName: "",
+      address: "",
+      city: "",
+      state: "",
+      postalCode: "",
+      dateOfBirth: "",
+      ssn: "",
     },
   });
 
@@ -38,9 +48,9 @@ const AuthForm = ({ type }: { type: authType }) => {
         setUser(newUser);
       } else {
         const response = await SignIn({ email: values.email, password: values.password });
-      }
-    } catch (error) {
 
+        if (response) router.push('/');
+      }
     } finally {
       setIsLoading(false);
     }
